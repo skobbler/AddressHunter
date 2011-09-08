@@ -1,0 +1,26 @@
+ADDRESSHUNTER WRAPPER - INSTALL GUIDE
+-------------------------------------
+
+1. Requirements
+ - Intel-based computer with Mac OS X Snow Leopard (10.6)
+ - Necessary for Installing on Device:
+    - iPhone Apple iOS device.
+    - iOS developer certification.
+
+2. Install SDK + PhoneGap
+ - Download and install Xcode from Apple Developer Portal (http://developer.apple.com/)
+   (Membership is required).
+ - Download 0.9.4 copy of PhoneGap and extract its contents. 
+ - Navigate to the iOS directory and run the installer until completion.
+
+3. Setup the project
+ - Download the AddressHunter wrapper project (github URL https://github.com/skobbler/AddressHunter/
+   tree/master/wrapper/iOS/) and place it in a location at your own will.
+ - Launch Xcode, then under the File menu select Open... 
+ - Go to the location you have previously chosen and you will find the project file under
+   AddressHunter_V_01/AddressHunter.xcodeproj. Open the project file.
+ - You can alter the behavior of the wrapper (change redirect URL) by modifying index.html, which
+   can be found under the WWW project folder.
+ - Build and run the project (via simulator or directly on a IPhone device (requires iOS developer
+   certification).
+   
