@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="pragma" content="no-cache">
+
+		<title>AddressHunter</title>
+		<base href="<?php echo $this->serverUrl() . $this->baseUrl(); ?>/" />
+
+		<link href="js/dojox/mobile/themes/iphone/iphone.css" rel="stylesheet" />
+		<link href="js/addresshunter/themes/mapers_theme/iphone/iphone_retina.css" rel="stylesheet" />
+		<link href="js/addresshunter/themes/mapers_theme/iphone/map.css" rel="stylesheet" />
+
+		<script type="text/javascript">
+			djConfig = {
+				isDebug: true,
+				//baseUrl: './',
+				modulePaths: {
+					addresshunter: '<?php echo $this->baseUrl(); ?>/js/addresshunter'
+				},
+				parseOnLoad: true,
+				mblAlwaysHideAddressBar: true
+			};
+		</script>
+
+		<script type="text/javascript" src="js/dojo/dojo.js"></script>
+
+		<script type="text/javascript" src="js/phonegap.0.9.4.min.js"></script>
+
+		<script language="JavaScript" type="text/javascript">
+			dojo.require("dojox.mobile.parser");
+			dojo.require("dojox.mobile");
+			dojo.require("dojox.mobile.ScrollableView");
+			dojo.requireIf(!dojo.isWebKit, "dojox.mobile.compat");
+			dojo.requireIf(!dojo.isWebKit, "dojo.fx");
+			dojo.requireIf(!dojo.isWebKit, "dojo.fx.easing");
+			
+			addresshunter.serverBase = "<?php echo $this->serverUrl() . $this->baseUrl(); ?>";
+
+		</script>
+	</head>
+	<body>
+		<div id="simple" dojoType="dojox.mobile.ScrollableView"  selected="true">
+			<h1 dojoType="dojox.mobile.Heading" fixed="top" label="AddressHunter">
+				<span class="topOrnament"></span>
+			</h1>
+			<div dojoType="dojox.mobile.EdgeToEdgeList">
+				<?php echo $this->layout()->content ?>
+			</div>
+			<a class="btn" href="<?php echo $this->baseUrl();?>" >Back to the game</a>
+		</div>
+	</body>
+</html>
+

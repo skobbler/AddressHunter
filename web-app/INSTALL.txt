@@ -1,0 +1,118 @@
+INTRODUCTION
+------------
+AddressHunter is composed of three main parts:
+- the AddressHunter web application (the game itself)
+- an address import tool (which feeds the game with data)
+- a native app wrapper (the app you need to install on your device/iPhone)
+
+
+SYSTEM REQUIREMENTS
+-------------------
+- http webserver (ex. Apache)
+- PHP 5.3.0 or later
+- MySQL 5.0 or later
+- required PHP extensions: ctype, curl, dom, gd, hash, libxml, mime_magic, mysql, pdo_mysql,
+                           Reflection, pcre, session, SimpleXML, SPL, apc (optional)
+- webserver modules: mod_rewrite (optional, but recommended)
+
+
+TECHNOLOGIES USED
+-----------------
+- Zend Framework 1.11.5
+- Doctrine 2.1.0
+- Dojo Toolkit 1.6.1rc2
+- Openlayers.mobile rev#10995
+
+
+INSTALLATION (AddressHunter web application)
+--------------------------------------------
+
+1. download the source code from GitHub (https://github.com/skobbler/AddressHunter/tree/master/
+   web-app) and copy it into your http server's webroot in a directory called ex. "addresshunter"
+        ex. Windows: C:\xampp\htdocs\addresshunter
+        ex. Linux: /data/www/addresshunter
+
+2. create a new MySQL database (ex. "addresshunter") and create the table structure by
+   importing sql/2011-09-07_create_tables.sql
+   
+3. make sure you have an OSM account at http://www.openstreetmap.org and
+   http://api06.dev.openstreetmap.org (needed for development) and register the application under
+   your account(s) at 'Oauth settings' > 'Register your application':
+        Name: AddressHunter (or something similar)
+        Application URL: http://localhost/addresshunter/about/ (the URL to the About page)
+        Request permissions (check):
+            [x] read their user preferences
+            [x] modify the map
+        (Note: leave the Callback URL empty)
+
+4. configure the application in application/configs/application.ini by replacing the question
+   marks with the appropriate values from your environment (the required settings are quite
+   self-explanatory, the main things to configure are MySQL DB connection with Doctrine and OSM
+   OAuth settings obtained at point 3.)
+
+5. create an alias or vhost in your webserver and point it to the "public" directory
+    ex. Windows: in Apache httpd.conf add:
+    Alias /addresshunter/ "C:/xampp/htdocs/addresshunter/public/"
+    <Directory "C:/xampp/htdocs/addresshunter/public">
+        SetEnv APPLICATION_ENV development
+        Options Indexes FollowSymLinks MultiViews ExecCGI
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+        DirectoryIndex index.php
+    </Directory>
+
+6. open public/.htdocs and adjust the RewriteBase (this is necessary only if you named your alias
+   differently than in the previous example or you used a vhost)
+
+7. on Linux environments add write permissions to the below directories (on Windows you can ignore
+   this step):
+    - application/tmp/
+    - application/models/Addresshunter/Proxies/
+    - public/photos/
+    - data/geocom/
+    - data/logs/
+
+8. fire up a browser (Safari or Chrome is recommended) at http://localhost/addresshunter/ and see
+   the magic
+
+
+IMPORTING ADDRESSES
+-------------------
+
+The "fuel" of the game are the missing addresses/housenumbers from OSM.
+
+AddressHunter does not come with any address data by default. This means you must find a source and
+import it yourself (or, for development it is enough to simply invent some).
+
+Generally, the address import is performed in two big steps:
+A) Address import: importing the addresses from different sources in a unified format into the DB
+   (table 'address_import'). Each data source should have it's own script/cronjob. An
+   example can be found at cronjobs/AddressImportGeocom.php.
+B) Address validation: validating the imported addresses by looking them up one by one with
+   different geocoders and checking if there are valid (real) and if they are already present in
+   OSM. The ideal case is when an address is real but it's missing from OSM, so it can be copied to
+   'address' table and is ready to be used in the game.
+   Note: only one such script/cronjob should exist and that is AddressImportValidator.php.
+
+To perform the address import follow the below steps:
+
+1. open data/geocom/geocom_example.log and add some more addresses to it by following the
+   convention from the example (url-encoded parameters) 
+   Note: you can also make a backup of the resulting file since it will be deleted after the import.
+2. run from CLI the script cronjobs/AddressImportGeocom.php (this will parse the log file and
+   delete it)
+3. check in the database in "address_import" table the newly added entries
+4. run from CLI the script cronjobs/AddressImportValidator.php several times (note: 10 addresses
+   are validated at once)
+5. check again in the database both the "address_import" and "address" tables
+6. if you acquire a larger or continuous source for the data import, it worth adding these scripts
+   to a crontab to be run in ~5 min frequency
+
+For more details about how the address validation works see the documentation (and code comments)
+within the mentioned scripts.
+
+
+CONTACT & SUPPORT
+-----------------
+For more info and help please contact us at: contact@addresshunter.net

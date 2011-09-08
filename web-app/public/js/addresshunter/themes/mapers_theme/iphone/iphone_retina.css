@@ -1,0 +1,1204 @@
+/* clear classes */
+.clearfix:after {content:" ";display:block;height:0;clear:both;visibility:hidden;overflow:hidden;font-size:0;}
+.clearItem {clear:both; display: block; float: none; overflow: hidden; height: 0px;font-size: 0;line-height: 0;}
+.clear {clear: both}
+
+@font-face { font-family: "Catull"; font-weight: normal; font-style: normal; src: url('../fonts/catull.ttf') format("truetype");}
+
+@font-face { font-family: "Palatino Linotype"; font-weight: normal; font-style: normal; src: url('../fonts/pala.ttf') format("truetype");}
+@font-face { font-family: "Palatino Linotype"; font-weight: bold; font-style: normal; src: url('../fonts/palab.ttf') format("truetype");}
+@font-face { font-family: "Palatino Linotype"; font-weight: normal; font-style: italic; src: url('../fonts/palai.ttf') format("truetype");}
+@font-face { font-family: "Palatino Linotype"; font-weight: bold; font-style: italic; src: url('../fonts/palabi.ttf') format("truetype");}
+
+* {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+}
+a, .link {
+	color: #480505;
+	cursor: pointer;
+}
+.btn a, .btn .link { color: #d5b432;}
+
+body {
+	visibility: hidden;
+}
+html.mobile, .mobile body {
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+.mobile body {
+	overflow-x: hidden;
+	-webkit-text-size-adjust: none;
+	background-color: #d8c28e;
+	font-family: "Palatino Linotype";
+	font-size: 17px;
+}
+
+.mblView {
+	background: url(images/retina/left_top_ornament.png) left 42px no-repeat, url(images/retina/right_top_ornament.png) right 42px no-repeat, url(images/retina/left_bottom_ornament.png) left bottom no-repeat, url(images/retina/right_bottom_ornament.png) right bottom no-repeat, #d8c28e url(images/retina/background.jpg) left top no-repeat;
+	-webkit-background-size: 53px 55px, 53px 55px, 53px 55px, 53px 55px, 100% 100%;
+}
+.landing #home {background-position: left top, right top, left bottom, right bottom, left top;}
+#playing_list { background-position: left 42px, right 42px, left 0 bottom 42px, right 0 bottom 42px, left top;}
+
+.mblHeading {
+	position: relative;
+	height: 38px;
+	margin: 0px;
+	padding: 0px;
+	/*top: -1px !important;*/
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #ffc000;
+	outline-width: 1px;
+	outline-style: solid;
+	outline-color: #aa911d;
+	background: black url(images/retina/header_bg.png) repeat left top;
+	-webkit-background-size: auto 38px;
+	-webkit-box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5);
+	font-family: "Palatino Linotype";
+	font-size: 16px;
+	color: white;
+	text-align: center;
+	line-height: 38px;
+	text-shadow: rgba(0,0,0,0.6) 0px -1px 0px;
+	overflow: visible;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	z-index: 5000 !important;
+}
+.mblHeading .title {
+	display: block;
+	z-index: 5003;
+	margin: 0px 6px;
+}
+.mblHeading .topOrnament {
+	display: block;
+	position: absolute;
+	bottom: -11px;
+	left: 50%;
+	background: transparent url(images/retina/header_topOrnament.png) no-repeat left top;
+	-webkit-background-size: 114px 20px;
+	width: 114px;
+	height: 20px;
+	margin-left: -57px;
+	z-index: 5001;
+}
+.mblArrowButton {
+	position: absolute;
+	left: 0px;
+	top: 4px;
+	float: none;
+	height: 30px;
+	margin-right: 6px;
+	z-index: 5004;
+}
+
+.mblArrowButtonHead {
+	position: absolute;
+	top: 4px;
+	left: 9px;
+	width: 20px;
+	height: 20px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000;
+	-webkit-transform: scale(.8,1) rotate(45deg);
+	background: -webkit-gradient(linear, left top, right bottom, from(#dabe4d), to(#d5b432), color-stop(0.5, #dabe4d), color-stop(0.5, #d5b432));
+}
+.mblArrowButtonBody {
+	position: absolute;
+	top: 0px;
+	left: 20px;
+	padding: 0px 10px 0px 4px;
+	height: 28px;
+	border-width: 1px 1px 1px 0px;
+	border-style: solid;
+	border-color: #000;
+	font-family: Catull, "Palatino Linotype";
+	text-shadow: rgba(0,0,0,0.6) 0px -1px 0px;
+	text-transform: uppercase;
+	font-weight: normal;
+	font-size: 13px;
+	color: black;
+	line-height: 29px;
+	cursor: pointer;
+	background-color: #d5b432;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#dabe4d), to(#d5b432), color-stop(0.5, #dabe4d), color-stop(0.5, #d5b432));
+	-webkit-tap-highlight-color: transparent;
+}
+.mblArrowButtonNeck {
+	position: absolute;
+	top: 0px;
+	left: 20px;
+	width: 4px;
+	height: 28px;
+	border-width: 1px 0px 1px 0px;
+	border-style: solid;
+	border-color: #000;
+	background: -webkit-gradient(linear, left top, left bottom, from(#dabe4d), to(#d5b432), color-stop(0.5, #dabe4d), color-stop(0.5, #d5b432));
+}
+.mblArrowButtonSelected .mblArrowButtonHead {
+	background: -webkit-gradient(linear, left top, right bottom, from(#f4cd35), to(#f2c618), color-stop(0.5, #f4cd35), color-stop(0.5, #f2c618));
+}
+.mblArrowButtonSelected .mblArrowButtonBody, .mblArrowButtonSelected .mblArrowButtonNeck {
+	background: -webkit-gradient(linear, left top, left bottom, from(#f4cd35), to(#f2c618), color-stop(0.5, #f4cd35), color-stop(0.5, #f2c618));
+	color: white;
+}
+.mblToolbarButton {
+	float: left;
+	position: absolute;
+	top: 4px;
+	right: 0px;
+	margin: 0;
+	margin-right: 6px;
+	padding: 0px 10px;
+	height: 28px;
+	border: 1px inset #000;
+	font-family: Catull, "Palatino Linotype";
+	font-size: 13px;
+	font-weight: normal;
+	color: black;
+	line-height: 28px;
+	text-align: center;
+	text-transform: uppercase;
+	cursor: pointer;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	-webkit-tap-highlight-color: transparent;
+	z-index: 5004;
+}
+.mblTabBar {
+	position: relative;
+	height: 48px;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	background-color: #000000;
+	background: -webkit-gradient(linear, left top, left bottom, from(#2D2D2D), to(#000000), color-stop(0.5, #141414), color-stop(0.5, #000000));
+	border-top: 1px solid #000000;
+	color: white;
+	text-align: center;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.mblTabBar .mblTabBarButton {
+	position: relative;
+	list-style-type: none;
+	float: left;
+}
+.mblTabBarButton {
+}
+.mblTabBarButtonAnchor {
+	display: block;
+	text-decoration: none;
+}
+.mblTabButton .mblTabBarButtonAnchor {
+	height: 28px;
+}
+.mblTabBarButtonDiv {
+	position: relative;
+	height: 34px;
+	width: 29px;
+	left: 50%;
+}
+.mblTabButton .mblTabBarButtonDiv {
+	display: none;
+}
+.mblTabBarButtonDivInner {
+	left: -50%;
+}
+.mblTabBarButtonIcon {
+	position: absolute;
+	left: 0px;
+	top: 2px;
+}
+.mblTabBar .mblTabBarButton.mblTabButtonSelected {
+	background-color: #404040;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f4cd35), to(#f2c618), color-stop(0.5, #f4cd35), color-stop(0.5, #f2c618));
+	color: white;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+}
+.mblTabBarButtonTextBox {
+	color: #979797;
+	font-family: "Palatino Linotype";
+	font-size: 11px;
+}
+.mblTabButtonSelected .mblTabBarButtonTextBox {
+	color: white;
+}
+.mblRoundRect {
+	margin: 7px 9px 16px 9px;
+	padding: 8px;
+	border: 1px solid #ADAAAD;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	background-color: white;
+}
+.help_section {
+	margin: 20px 50px;
+	padding: 8px;
+	border: 0px solid #ADAAAD;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	background-color: transparent;
+}
+.mblRoundRect.mblShadow {
+	-webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+}
+.mblEdgeToEdgeCategory {
+	position: relative;
+	height: 22px;
+	margin: 0px;
+	padding: 0px 10px;
+	border-top: 1px solid #A4B0B9;
+	border-bottom: 1px solid #979DA3;
+	background: -webkit-gradient(linear, left top, left bottom, from(#8F9EA9), to(#B7C0C7));
+	font-family: "Palatino Linotype";
+	font-weight: bold;
+	font-size: 16px;
+	color: white;
+	line-height: 22px;
+	text-shadow: rgba(0,0,0,0.6) 0px -1px 0px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.mblRoundRectCategory {
+	color: #4C566C;
+	padding: 18px 0px 0px 20px;
+	margin: 0px;
+	text-shadow: rgba(255, 255, 255, 1) 0px 1px 0px;
+	font-family: "Palatino Linotype";
+	font-size: 16px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.mblRoundRectList {
+	margin: 7px 9px 16px 9px;
+	padding: 0px;
+	border: 1px solid #ADAAAD;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	background-color: white;
+	position: relative; 
+}
+.mblEdgeToEdgeList {
+	padding: 0px;
+	background-color: transparent;
+	position: relative; 
+	margin: 0px; 
+}
+.mblListItem {
+	list-style-type: none;
+	height: 43px;
+	border: 0;
+	line-height: 43px;
+	padding-bottom: 3px;
+	background-image: none;
+	background-repeat: repeat-x;
+	background-position: left bottom;
+	-webkit-background-size: 42px 3px;
+	font-weight: bold;
+	position: relative;
+	color: black;
+	vertical-align: bottom; 
+	padding-left: 8px;
+}
+
+.mblListItemIcon {
+	position: absolute;
+	top: 7px;
+}
+.mblListItem.mblVariableHeight {
+	line-height: normal;
+	height: auto;
+	padding: 11px 6px 10px 6px;
+}
+.mblItemSelected {
+	background-color: none;
+	background: transparent;
+}
+.mblListItemTextBox {
+	padding-right: 28px;
+}
+.mblListItemTextBoxSelected {
+	background-color: #048BF4;
+}
+.mblRoundRectList .mblListItem:first-child {
+	-webkit-border-top-left-radius: 8px;
+	-webkit-border-top-right-radius: 8px;
+	-moz-border-radius-topleft: 8px;
+	-moz-border-radius-topright: 8px;
+}
+.mblRoundRectList .mblListItem:last-child {
+	border-bottom-width: 0px;
+	-webkit-border-bottom-left-radius: 8px;
+	-webkit-border-bottom-right-radius: 8px;
+	-moz-border-radius-bottomleft: 8px;
+	-moz-border-radius-bottomright: 8px;
+}
+.mblEdgeToEdgeList .mblListItem:last-child {
+	border-bottom-color: #707C84;
+}
+.mblListItem a.mblListItemAnchor {
+	background-position: 9px 7px;
+	display: block;
+	padding-left: 40px;
+	text-decoration: none;
+	-webkit-tap-highlight-color: transparent;
+}
+.mblListItem a.mblListItemAnchorNoIcon {
+	padding-left: 10px;
+}
+.mblItemSelected a.mblListItemAnchor {
+	color: white;
+}
+.mblListItem a.mblListItemAnchorHasRightButton {
+	padding-right: 40px;
+}
+.mblListItem .mblArrow {
+	position: absolute;
+	top: 18px;
+	right: 12px;
+	width: 6px;
+	height: 6px;
+	font-size: 1px;
+	-webkit-transform: rotate(45deg);
+	border-width: 3px 3px 0px 0px;
+	border-style: solid;
+	border-color: black;
+}
+.mblItemSelected .mblArrow {
+	border-color: white;
+}
+.mblVariableHeight div.mblArrow {
+	top: 50%;
+	margin-top: -4px;
+}
+.mblRightText {
+	position: absolute;
+	top: 12px;
+	right: 30px;
+	color: #324F85;
+	line-height: normal;
+}
+.mblListItem .mblRightButtonContainer {
+	position: absolute;
+	top: 50%;
+	right: 12px;
+}
+.mblListItem .mblRightButton {
+	position: absolute;
+	top: -50%;
+}
+.mblSwitch {
+	position: relative;
+	width: 94px;
+	height: 27px;
+	overflow: hidden;
+}
+.mblItemSwitch {
+	position: absolute;
+	top: 8px;
+	right: 12px;
+}
+.mblSwitchInner {
+	position: absolute;
+	top: 0px;
+	height: 27px;
+}
+.mblSwitchAnimation .mblSwitchInner {
+	-webkit-transition-property: left;
+	-webkit-transition-duration: .3s;
+}
+.mblSwitchOn .mblSwitchInner {
+	left: 0px;
+}
+.mblSwitchOff .mblSwitchInner {
+	left: -53px;
+}
+.mblSwitchBg {
+	position: absolute;
+	top: 0px;
+	height: 27px;
+	border-width: 1px;
+	border-style: inset;
+	border-color: #9CACC0;
+	font-family: "Palatino Linotype";
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 29px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-tap-highlight-color: transparent;
+}
+.mblSwitchBgLeft {
+	left: 0px;
+	width: 94px;
+	color: white;
+	background-color: #3F84EB;
+	background: -webkit-gradient(linear, left top, left bottom, from(#2859B1), to(#75ACFB), color-stop(0.5, #3F84EB), color-stop(0.5, #4C8EEE));
+}
+.mblSwitchBgRight {
+	left: 53px;
+	width: 94px;
+	color: #7F7F7F;
+	background-color: #EEEEEE;
+	background: -webkit-gradient(linear, left top, left bottom, from(#CECECE), to(#FDFDFD), color-stop(0.5, #EEEEEE), color-stop(0.5, #F8F8F8));
+}
+.mblSwitchKnob {
+	position: absolute;
+	top: 1px;
+	left: 53px;
+	width: 41px;
+	height: 26px;
+	font-size: 1px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #EFEFEF #A5A5A5 #969696 #325E9E;
+	line-height: 29px;
+	background-color: #CCCCCC;
+	background: -webkit-gradient(linear, left top, left bottom, from(#CCCCCC), to(#FAFAFA));
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+.mblSwitchText {
+	position: relative;
+	top: 0px;
+	width: 53px;
+	height: 27px;
+	padding: 0px;
+	text-align: center;
+}
+.mblSwitchTextLeft {
+	left: 0px;
+}
+.mblSwitchTextRight {
+	left: 40px;
+}
+.mblIconContainer {
+	padding: 0px;
+	margin: 20px 0px 0px 10px;
+	padding: 0px 0px 40px 0px;
+}
+.mblIconItem {
+	list-style-type: none;
+	float: left;
+}
+.mblIconItemTerminator {
+	list-style-type: none;
+	height: 20px;
+	clear: both;
+}
+.mblIconItemSub {
+	list-style-type: none;
+	margin-left: -10px;
+	background-color: white;
+}
+.mblIconArea {
+	font-family: "Palatino Linotype";
+	font-size: 12px;
+	height: 78px;
+	width: 74px;
+	text-align: center;
+	margin-bottom: 10px;
+}
+.mblIconArea DIV {
+	position: relative;
+	height: 65px;
+}
+.mblIconArea IMG {
+	position: absolute;
+	top: 0px;
+	left: 6px;
+}
+.mblContent {
+	clear: both;
+	padding-bottom: 20px;
+}
+table.mblClose {
+	clear: both;
+	cursor: pointer;
+}
+.mblVibrate{
+	position: relative;
+	-webkit-animation-duration: .5s;
+	-webkit-animation-timing-function: ease-in-out;
+	-webkit-animation-iteration-count: 20;
+	-webkit-animation-name: vibrate;
+	-webkit-transform: rotate(0deg);
+}
+@-webkit-keyframes vibrate{
+	0%{
+		-webkit-transform: rotate(-2deg);
+		bottom: -1px;
+		left: -1px;
+	}
+	25% {
+		-webkit-transform: rotate(1deg);
+		bottom: 2px;
+		left: 1px;
+	}
+	50% {
+		-webkit-transform: rotate(-1deg);
+		bottom: -2px;
+		left: -1px;
+	}
+	75% {
+		-webkit-transform: rotate(2deg);
+		bottom: 2px;
+		left: 1px;
+	}
+	100% {
+		-webkit-transform: rotate(-2deg);
+		bottom: -1px;
+		left: -1px;
+	}
+}
+.mblCloseContent{
+	-webkit-animation-duration: .3s;
+	-webkit-animation-timing-function: ease-in-out;
+	-webkit-animation-name: shrink;
+	-webkit-transform: scale(0.01);
+}
+.mblCloseContent.mblShrink0{
+	-webkit-animation-name: shrink0;
+}
+.mblCloseContent.mblShrink1{
+	-webkit-animation-name: shrink1;
+}
+.mblCloseContent.mblShrink2{
+	-webkit-animation-name: shrink2;
+}
+.mblCloseContent.mblShrink3{
+	-webkit-animation-name: shrink3;
+}
+@-webkit-keyframes shrink{
+	from { -webkit-transform: scale(1); }
+	to { -webkit-transform: scale(0.01); }
+}
+@-webkit-keyframes shrink0{
+	from { -webkit-transform: scale(1); }
+	to { -webkit-transform: translate(-40%,-70%) scale(0.01); }
+}
+@-webkit-keyframes shrink1{
+	from { -webkit-transform: scale(1); }
+	to { -webkit-transform: translate(-14%,-70%) scale(0.01); }
+}
+@-webkit-keyframes shrink2{
+	from { -webkit-transform: scale(1); }
+	to { -webkit-transform: translate(14%,-70%) scale(0.01); }
+}
+@-webkit-keyframes shrink3{
+	from { -webkit-transform: scale(1); }
+	to { -webkit-transform: translate(40%,-70%) scale(0.01); }
+}
+.mblIconContentHeading {
+	position: relative;
+	clear: both;
+	height: 25px;
+	padding-left: 40px;
+	margin-top: 0px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#E0E4E7), to(#B4BEC6), color-stop(0.5, #C4CCD2), color-stop(0.5, #BFC8CE));
+	border-top: 1px solid #F1F3F4;
+	border-bottom: 1px solid #717D85;
+	font-family: "Palatino Linotype";
+	font-size: 14px;
+	color: white;
+	line-height: 26px;
+	text-shadow: rgba(0,0,0,0.6) 0px -1px 0px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.mblButton {
+	padding: 0px 10px;
+	height: 29px;
+	border-width: 1px 1px 1px 1px;
+	border-style: outset;
+	color: white;
+	font-family: "Palatino Linotype";
+	font-size: 13px;
+	line-height: 29px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-tap-highlight-color: transparent;
+}
+.mblBlueButton {
+	border-color: #9CACC0;
+	background-color: #366EDF;
+	background: -webkit-gradient(linear, left top, left bottom, from(#7A9DE9), to(#2362DD), color-stop(0.5, #366EDF), color-stop(0.5, #215FDC));
+	-webkit-tap-highlight-color: transparent;
+}
+.mblBlueButtonSelected {
+	background: -webkit-gradient(linear, left top, left bottom, from(#8EA4C1), to(#4A6C9B), color-stop(0.5, #5877A2), color-stop(0.5, #476999));
+}
+.mblRedButton {
+	border-color: #9CACC0;
+	background-color: #366EDF;
+	background: -webkit-gradient(linear, left top, left bottom, from(#FA9D58), to(#EE4115), color-stop(0.5, #FF4D25), color-stop(0.5, #ED4D15));
+	-webkit-tap-highlight-color: transparent;
+}
+.mblRedButtonSelected {
+	background: -webkit-gradient(linear, left top, left bottom, from(#C1A48E), to(#9B6C4A), color-stop(0.5, #A27758), color-stop(0.5, #996947));
+}
+.mblButtonSelected {
+	background: -webkit-gradient(linear, left top, left bottom, from(#811c1c), to(#720101), color-stop(0.5, #811c1c), color-stop(0.5, #720101));
+}
+.mblTabContainer {
+}
+.mblTabButton {
+	float: left;
+	position: relative;
+	list-style-type: none;
+	width: 100px;
+	text-align: center;
+	height: 28px;
+	border-width: 1px 1px 1px 0px;
+	border-style: inset;
+	border-color: #9CACC0;
+	border-right-color: #5E708A;
+	font-family: "Palatino Linotype";
+	font-size: 13px;
+	color: white;
+	cursor: pointer;
+	line-height: 29px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#ABB9CA), to(#788DA9), color-stop(0.5, #8297AF), color-stop(0.5, #768BA7));
+	-webkit-tap-highlight-color: transparent;
+}
+.mblTabButton:first-child {
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-left-width: 1px;
+}
+.mblTabButton:last-child {
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-right-color: #9CACC0;
+}
+.mblTabPanelHeader .mblTabButton.mblTabButtonSelected {
+	background-color: #5877A2;
+	background: -webkit-gradient(linear, left top, left bottom, from(#8EA4C1), to(#4A6C9B), color-stop(0.5, #5877A2), color-stop(0.5, #476999));
+}
+.mblTabButtonImgDiv {
+	display: none;
+}
+.mblTabPanelHeader {
+	position: relative;
+	height: 39px;
+	margin: 0px;
+	padding: 3px 0px 0px 0px;
+	background-color: #889BB3;
+	background: -webkit-gradient(linear, left top, left bottom, from(#B0BCCD), to(#6D84A2), color-stop(0.5, #889BB3), color-stop(0.5, #8195AF));
+	border-top: 1px solid #CDD5DF;
+	border-bottom: 1px solid #2D3642;
+	font-family: "Palatino Linotype";
+	font-size: 20px;
+	color: white;
+	text-align: center;
+	line-height: 44px;
+	text-shadow: rgba(0,0,0,0.6) 0px -1px 0px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.mblTabPanelPane {
+}
+.mblTabPane {
+}
+.mblProgContainer {
+	position: absolute;
+	width: 36px;
+	height: 36px;
+	top: 180px;
+	left: 50%;
+	margin: -18px 0px 0px -18px;
+}
+.mblProg {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 11px;
+	font-size: 1px;
+	height: 4px;
+	overflow: hidden;
+	-webkit-transform-origin: 0 2px;
+	background-color: #C0C0C0;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+}
+.mblProg0 {
+	-webkit-transform: translate(18px,10px) rotate(-90deg);
+}
+.mblProg1 {
+	-webkit-transform: translate(22px,11px) rotate(-60deg);
+}
+.mblProg2 {
+	-webkit-transform: translate(25px,14px) rotate(-30deg);
+}
+.mblProg3 {
+	-webkit-transform: translate(26px,18px) rotate(0deg);
+}
+.mblProg4 {
+	-webkit-transform: translate(25px,22px) rotate(30deg);
+}
+.mblProg5 {
+	-webkit-transform: translate(22px,25px) rotate(60deg);
+}
+.mblProg6 {
+	-webkit-transform: translate(18px,26px) rotate(90deg);
+}
+.mblProg7 {
+	-webkit-transform: translate(14px,25px) rotate(120deg);
+}
+.mblProg8 {
+	-webkit-transform: translate(11px,22px) rotate(150deg);
+}
+.mblProg9 {
+	-webkit-transform: translate(10px,18px) rotate(180deg);
+}
+.mblProg10 {
+	-webkit-transform: translate(11px,14px) rotate(210deg);
+}
+.mblProg11 {
+	-webkit-transform: translate(14px,11px) rotate(240deg);
+}
+.mblColorBlue {
+	background-color: #366EDF;
+	background: -webkit-gradient(linear, left top, left bottom, from(#7A9DE9), to(#2362DD), color-stop(0.5, #366EDF), color-stop(0.5, #215FDC));
+}
+.mblColorDefault { 
+	background-color: #d5b432;
+	background: -webkit-gradient(linear, left top, left bottom, from(#dabe4d), to(#d5b432), color-stop(0.5, #dabe4d), color-stop(0.5, #d5b432));
+	-webkit-tap-highlight-color: transparent;
+}
+.mblColorDefaultSel { 
+	background-color: #f2c618;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f4cd35), to(#f2c618), color-stop(0.5, #f4cd35), color-stop(0.5, #f2c618));
+	color: white;
+}
+
+.btn {
+	background: -webkit-gradient(linear, left top, left bottom, from(#511212), to(#480505), color-stop(0.5, #511212), color-stop(0.5, #480505));
+	border: 1px solid #aa911d;
+	color: #d5b432;
+	margin: 1% 10% 0px;
+}
+.btn li {
+	border: 1px solid #ffc000; 
+	padding: 0px;
+	color: #d5b432;
+	text-align: center;
+	text-transform: uppercase;
+	font-family: Catull, "Palatino Linotype";
+	font-weight: normal;
+	height: 30px;
+	line-height: 30px;
+	font-size: 18px;
+	vertical-align: bottom;
+	text-shadow: rgba(0,0,0,0.6) 0px -1px 0px;
+	background: transparent none no-repeat;
+	-webkit-background-size: auto;
+}
+.btn .mblListItem .mblListItemTextBox, .btn .mblListItem .mblListItemAnchor {
+	padding: 0;
+}
+.btn .mblListItem:last-child {
+    border-bottom-color: #d5b432;
+}
+.btn .mblItemSelected {
+	background-color: #811c1c;
+	background: -webkit-gradient(linear, left top, left bottom, from(#811c1c), to(#720101), color-stop(0.5, #811c1c), color-stop(0.5, #720101));
+	text-shadow: 0;
+}
+.btnContainer {border: 1px solid #aa911d; margin: 1% 10% 0px;}
+.btnContainer .btn {
+	border: 1px solid #ffc000; 
+	-webkit-border-radius: 0px;	
+	-moz-border-radius: 0px; 
+	margin: 0; 
+	display: block; 
+	cursor: pointer;
+	text-align: center;
+	text-transform: uppercase;
+	font-family: Catull, "Palatino Linotype";
+	font-weight: normal;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	font-size: 18px;
+	vertical-align: bottom;
+	text-shadow: rgba(0,0,0,0.6) 0px -1px 0px;
+}
+
+
+.login_btn {
+	margin: 0 20% 0px;
+}
+.login_btn li {
+	height: 50px;
+	font-size: 30px;
+	line-height: 55px;
+}
+
+.register_btn {
+	text-align: center;
+	font-family: Catull, "Palatino Linotype";
+	font-size: 25px;
+}
+.register_btn a {
+	color: #480505;
+	text-decoration: none;
+	padding-left: 30px;
+	background: url(images/retina/link_icon.png) no-repeat left center;
+	-webkit-background-size: 21px 6px;
+}
+.register_btn a span {
+	padding-right: 30px;
+	background: url(images/retina/link_icon.png) no-repeat right center;
+	-webkit-background-size: 21px 6px;
+}
+
+.found_address_btn {
+	float: right;
+	color: #d5b432;
+	background-color: #581B1B;
+	margin-top: 7px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#511212), to(#480505), color-stop(0.5, #511212), color-stop(0.5, #480505));
+	border: 1px solid #aa911d;
+	line-height: 26px;
+	text-transform: uppercase;
+}
+
+.about_btn a{
+	text-align: center;
+	font-size: 12px;
+	line-height: 16px;
+	padding: 2px;
+	margin: 2px;
+}
+
+.alignLeft {
+	text-align: left;
+}
+.gray, .gray * {
+	color: gray;
+}
+.gold {color: #d5b432;}
+
+
+
+form label {
+	color: black;
+	display: block;
+	width: 55%;
+	margin-left: 5%;
+	float: left;
+	height: 30px;
+	line-height: 30px;
+}
+form input {width: 35%; display: block; float: right; height: 30px; margin: 0px; padding: 0px; line-height: 30px;
+	-webkit-border-radius: 0px;
+	border: 1px solid #ffc000;
+	outline: 1px solid #aa911d;
+	-webkit-user-select: text;
+}
+
+form input[type="number"] {
+	width: 10%;
+	margin-right: -2px;
+	padding-right: 2px;
+	text-align: center;
+}
+.increment {
+	display: block;
+	float: right;
+	width: 32px;
+	height: 32px;
+	margin: 0px;
+	padding: 0px;
+	border: 1px solid #ffc000;
+	outline: 1px solid #aa911d;
+	position: relative;
+	z-index: 2;
+	-webkit-border-radius: 0px;
+	-webkit-box-align: left;
+	position: relative;
+}
+.increment span {
+	display: block;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 28px;
+	height: 28px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	-webkit-background-size: 18px 15px;
+}
+.up span {
+	background-image: url(images/retina/arrow_up.png);
+	height: 25px;
+}
+
+.down span {
+	background-image: url(images/retina/arrow_down.png);
+}
+
+#play_stat_found, #play_stat_rem {
+	float: left;
+	border: 1px solid #6c6c6c;
+	outline: 1px solid #000;
+	height: 20px;
+	line-height: 20px;
+	font-size: 12px;
+	padding: 0px 5px;
+	margin: 8px;
+}
+#play_stat_rem {
+	float: right;
+}
+
+#play_map_list {
+	position: absolute;
+	width: 110px;
+	left: 50%;
+	margin-left: -65px;
+	top: 2px;
+}
+#play_map_list > .btn {
+	position: relative;
+	top: 0;
+	font-size: 12px;
+	padding: 0;
+	width: auto;
+	padding-right: 15px;
+	float: none;
+}
+#play_map_list .btn span.btn {
+	display: block;
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	border: 1px solid #ffc000;
+	-webkit-border-radius: 15px;
+	right: -15px;
+	top: -2px;
+	background: url(images/retina/map_list_view_icon.png) no-repeat center center, -webkit-gradient(linear, left top, left bottom, from(#511212), to(#480505), color-stop(0.5, #511212), color-stop(0.5, #480505));
+	background-repeat: no-repeat;
+	-webkit-background-size: 50% 50%, 100% 100%;
+}
+#play_map_list .btn.mblColorDefaultSel span.btn {
+	background: url(images/retina/map_list_view_icon.png) no-repeat center center, -webkit-gradient(linear, left top, left bottom, from(#811c1c), to(#720101), color-stop(0.5, #811c1c), color-stop(0.5, #720101));
+	background-repeat: no-repeat;
+	-webkit-background-size: 50% 50%, 100% 100%;
+}
+
+.caracter {
+	height: 200px;
+	position: relative;
+	margin: 0px auto;
+}
+.curent_level, .next_level, #user_rank_message {
+	position: absolute;
+	text-align: center;
+}
+.curent_level {
+	top: 20%;
+	left: 3%;
+}
+.next_level {
+	top: 20%;
+	right: 3%;
+}
+.curent_level p, .next_level p {
+	font-weight: bold;
+	font-size: 12px;
+	line-height: 16px;
+	margin: 0;
+}
+
+.curent_level div, .next_level div {
+	background: url(images/retina/level_bg.png) no-repeat;
+	-webkit-background-size: 100px 65px;
+	width: 100px;
+	height: 65px;
+	color: #fff;
+	text-shadow: rgba(0,0,0,0.6) 0px -1px 0px;
+}
+.curent_level div p, .next_level div p {
+	font-size: 10px;
+	font-weight: normal;
+	line-height: 12px;
+	padding-top: 4px;
+}
+#user_rank, #next_rank {
+	display: block;
+	color: #d5b432;
+	font-size: 10px;
+	line-height: 30px;
+	font-weight: bold;
+	text-transform: uppercase;	
+}
+#user_rank_character {
+	margin: 0 auto;
+	display: block;
+}
+
+#user_rank_message {
+	text-align: center;
+	bottom: 20px;
+	font-weight: bold;
+	font-style:italic;
+	width: 100%;
+}
+#user_points, #next_rank_points {
+	display: block;
+	font-size: 12px;
+	line-height: 12px;
+	font-weight: bold;
+}
+
+h3 {
+	text-align: center;
+}
+
+.list {
+	background: url(images/retina/list_up_bg.png) left top repeat-x, url(images/retina/list_left_bg.png) left 6px repeat-y, url(images/retina/list_right_bg.png) right 6px repeat-y, url(images/retina/list_down_bg.png) left bottom repeat-x;
+	-webkit-background-size: 77px 6px, 6px 77px, 6px 77px, 77px 6px;
+	padding: 6px;
+	margin: 6px;
+}
+.list li {
+	background: rgba(20,17,12,0.75);
+	height: auto;
+	line-height: 1.2em;
+	padding: 10px 0px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+	border-top: 1px solid rgba(200, 200, 200, 0.1);
+}
+.list li.mblListItem:first-child { 
+	border-top: 0;
+}
+.list li.mblListItem:last-child { 
+	border-bottom: 0;
+}
+.list li a, .list li a div {padding: 0px !important;}
+.list li a div {
+	font-size: 14px;
+	line-height: 1.2em;
+	color: #fff;
+}
+.gameList {border: none;}
+.gameList li, .gameList .mblListItem:last-child {
+	border-bottom: 1px solid #6d5e29;
+	border-top: 1px solid #aa8f59;
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(191, 173, 100, 0.5)), to(rgba(175, 152, 61, 0.5)));
+	-webkit-background-size: auto auto;
+}
+.gameList li a, .gameList li a div { color: black; border: none;}
+.gameList li a div {font-size: 16px; line-height: 1.2em; font-weight: bold;}
+.gameList li a div span {font-size: 14px;}
+
+.gameList li.mblItemSelected, .gameList li.mblItemSelected a, .gameList li.mblItemSelected a div {
+	color: white;
+	text-shadow: rgba(0,0,0,0.6) 0px -1px 0px;
+}
+
+#gameDetails {
+	-webkit-box-shadow: none;
+	background-color: transparent;
+	border: none;
+	margin: 0 10% 20px;
+	padding: 0px;
+	-webkit-border-radius: 0px;
+}
+
+#gameHelp {
+	-webkit-box-shadow: none;
+	background-color: transparent;
+	border: none;
+	margin: 0 10% 20px;
+	padding: 0px;
+	-webkit-border-radius: 0px;
+	
+}
+#gameHelp p {
+	text-align: center;
+}
+
+#gameHelp img {
+	padding-top: 10px;
+	width: 200px;
+	display: block;
+}
+
+#map_time_remaining, #addresses_time_remaining {
+	position: absolute;
+	z-index: 5010;
+	background: rgba(256, 256, 256, 0.75) url(images/retina/time.png) center 5px no-repeat;
+	-webkit-background-size: 25px 32px;
+	top: 40px;
+	right: 0px;
+	width: 50px;
+	padding: 40px 5px 5px;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 16px;
+	text-align: center;
+	color: #000;
+}
+#addresses_time_remaining {
+	background: transparent url(images/retina/time.png) center 5px no-repeat;
+	width: 100%;
+	margin-top: 10px;
+}
+
+#recenter{
+	position: absolute;
+	z-index: 5010;
+	background:  url(images/retina/recenter_target.png) center 5px no-repeat;
+	-webkit-background-size: 35px 35px;
+	top: 100px;
+	right: 0px;
+	width: 40px;
+	padding: 40px 5px 5px;
+	border:none;
+}
+
+div.olControlZoomPanel .olControlZoomOutItemInactive {
+	top: 52px !important;
+}
+
+#loading_spinner{
+	position: absolute;
+	z-index:9999;
+	top:50%;
+	left:50%;
+	padding: 30px;
+	margin:-42px 0 0 -42px;
+	background: rgba(0, 0, 0, 0.8);
+	-webkit-border-radius: 10px;
+	display: none;
+}
+
+.btnContainer .mblButtonSelected, .found_address_btn.mblButtonSelected, .btnContainer .mblColorDefaultSel, .btnContainer .mblColorDefaultSel span {
+	background: -webkit-gradient(linear, left top, left bottom, from(#811c1c), to(#720101), color-stop(0.5, #811c1c), color-stop(0.5, #720101));
+	background-color: #811c1c;
+	color: #fff;
+}

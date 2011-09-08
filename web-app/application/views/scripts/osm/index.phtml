@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="pragma" content="no-cache">
+
+		<title>AddressHunter</title>
+		<base href="<?php echo $this->baseUrl(); ?>/" />
+
+		<script language="JavaScript" type="text/javascript">
+			top.location.replace("<?php echo $this->serverUrl() . $this->url(
+					array('controller'=>'index', 'action'=>'index'),
+					'default',
+					true) ?>");
+		</script>
+		
+	</head>
+	<body>
+	</body>
+	
+</html>
+

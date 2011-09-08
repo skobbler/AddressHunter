@@ -1,0 +1,636 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="pragma" content="no-cache">
+
+		<title>AddressHunter</title>
+		<base href="<?php echo $this->serverUrl() . $this->baseUrl(); ?>/" />
+
+		<link href="js/dojox/mobile/themes/iphone/iphone.css" rel="stylesheet" />
+		<link href="js/addresshunter/themes/mapers_theme/iphone/iphone_retina.css" rel="stylesheet" />
+		<link href="js/addresshunter/themes/mapers_theme/iphone/map.css" rel="stylesheet" />
+
+		<script type="text/javascript">
+			djConfig = {
+				isDebug: true,
+				//baseUrl: './',
+				modulePaths: {
+					addresshunter: '<?php echo $this->baseUrl(); ?>/js/addresshunter'
+				},
+				parseOnLoad: true,
+				mblAlwaysHideAddressBar: true
+			};
+		</script>
+		
+		<script type="text/javascript" src="js/dojo/dojo.js"></script>
+		
+
+		<script type="text/javascript" src="js/OpenLayers.mobile.js"></script>
+		<script type="text/javascript" src="js/phonegap.0.9.4.min.js"></script>
+
+		<script language="JavaScript" type="text/javascript">
+			dojo.require("dojox.mobile.parser");
+			dojo.require("dojox.mobile");
+			dojo.require("dojox.mobile.ScrollableView");
+			dojo.requireIf(!dojo.isWebKit, "dojox.mobile.compat");
+			dojo.requireIf(!dojo.isWebKit, "dojo.fx");
+			dojo.requireIf(!dojo.isWebKit, "dojo.fx.easing");
+			dojo.require("dojo.sensor.geolocation");
+			dojo.require("dojo.sensor.media");
+			dojo.require("dojo.DeferredList");
+			dojo.require("dojox.NodeList.delegate");
+			
+			dojo.require("addresshunter.HomeView");
+			//dojo.require("addresshunter.StatsView");
+			dojo.require("addresshunter.GameListView");
+			dojo.require("addresshunter.GameDetailsView");
+			dojo.require("addresshunter.CreateGameView");
+			dojo.require("addresshunter.WaitingView");
+			dojo.require("addresshunter.PlayingMapView");
+			dojo.require("addresshunter.PlayingListView");
+			dojo.require("addresshunter.QuitView");
+			dojo.require("addresshunter.CancelView");
+			dojo.require("addresshunter.AddressfindView");
+			dojo.require("addresshunter.EndGameView");
+
+			addresshunter.serverBase = "<?php echo $this->serverUrl() . $this->baseUrl(); ?>";
+			
+			addresshunter.USER = {
+				<?php if($this->user): ?>
+				id: <?php print (int)$this->user['id']; ?>,
+				osmId: <?php print (int)$this->user['osmId']; ?>,
+				nickname: "<?php print $this->user['nickname']; ?>",
+				points: <?php print (int)$this->user['points']; ?>,
+				rank: "<?php print $this->user['rank']; ?>",
+				<?php else: ?>
+				id: false,
+				osmId: false,
+				nickname: false,
+				points: false,
+				rank: false,
+				<?php endif; ?>
+				posX: 23.592924804, //23.592954,
+				posY: 46.773574398, //46.773334,
+				posDate: new Date(),
+				posTimeout: 1, // minutes
+				lastAddrId: null,
+				lastAddrName: null
+			};
+			
+			addresshunter.GAME = {
+				<?php if($this->currentGame): ?>
+				id: <?php print (int)$this->currentGame['id']; ?>,
+				name: "<?php print $this->currentGame['name']; ?>",
+				status: "<?php print $this->currentGame['status']; ?>",
+				user_points:"<?php print $this->currentGame['g_points']; ?>",
+				is_map_locked:false
+				<?php else: ?>
+				id: false,
+				name: false,
+				status: false,
+				user_points:0,
+				is_map_locked:false
+				<?php endif; ?>
+			};
+			
+		</script>
+	</head>
+	<body<?php if(!$this->authenticated): ?> class="landing"<?php endif; ?>>
+
+<?php if(!$this->authenticated): ?>
+
+		<!-- LANDING -->
+		<div id="home" dojoType="dojox.mobile.ScrollableView" selected="true" class="landing">
+			<br />
+			<br />
+			<br />
+			<h1 style="text-align: center;">AddressHunter</h1>
+			<br /><br />
+			<!--ul dojoType="dojox.mobile.EdgeToEdgeList" class="btn login_btn">
+				<li dojoType="dojox.mobile.ListItem" moveTo="login" transition="slide" noArrow="true">
+					Login
+				</li>
+			</ul-->
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="btn login_btn">
+				<li dojoType="dojox.mobile.ListItem" moveTo="login" transition="slide" noArrow="true" href="<?php echo $this->url(
+					array('controller'=>'osm'),
+					'default',
+					true) ?>">
+					Login
+				</li>
+			</ul>
+			<p class="register_btn">or <a href="http://api06.dev.openstreetmap.org/user/new" target="_blank"><span>Register</span></a></p>
+			
+			<br /><br /><br />
+			<div style="font-size:11px;text-align:center">
+				&copy;2011 skobbler GmbH. All rights reserved.<br />
+			</div>
+			
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="about_btn">
+				<li dojoType="dojox.mobile.ListItem" moveTo="about" transition="slide" noArrow="true">
+					About
+				</li>
+			</ul>
+		</div>
+
+		<!-- LOGIN -->
+		<div id="login" dojoType="dojox.mobile.ScrollableView">
+			<h1 dojoType="dojox.mobile.Heading" fixed="top" back="Back" moveTo="home">
+				<span class="title">Login</span>
+				<span class="topOrnament"></span>
+			</h1>
+
+			<div class="content">
+			</div>
+		</div>
+
+<?php else: ?>
+
+		<!-- HOME -->
+		<div id="home" dojoType="addresshunter.HomeView"<?php if(!$this->currentGame):?> selected="true"<?php endif; ?>>
+			<h1 dojoType="dojox.mobile.Heading" fixed="top">
+				<span class="title alignLeft">Welcome <span class="gold"><?php echo $this->user['nickname']; ?></span></span>
+				<span class="topOrnament"></span>
+				<a dojoType="dojox.mobile.ToolBarButton" label="Logout" moveTo="logout" style="float:right;" transition="slide"></a>
+			</h1>
+			<div class="caracter">
+				<div class="curent_level">
+					<p>Your level</p>
+					<div>
+						<span id="user_rank" class="level"></span>
+						<p>Experience</p>
+						<span id="user_points"></span>
+					</div>
+				</div>
+				<img id="user_rank_character" width="207" height="200" src="" />
+				<div id="next_rank_content" style="visibility:hidden" class="next_level">
+					<p>Next level</p> 
+					<div>
+						<span id="next_rank" class="level"></span>
+						<p>Experience</p>
+						<span id="next_rank_points"></span>
+					</div>
+				</div>
+				<div id="user_rank_message"></div>
+			</div>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="btn">
+				<li dojoType="dojox.mobile.ListItem" transition="slide" noArrow="true" class="gray">
+					Single Player
+				</li>
+			</ul>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="btn">
+				<li dojoType="dojox.mobile.ListItem" moveTo="mp_menu" transition="slide" noArrow="true">
+					Multiplayer
+				</li>
+			</ul>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="btn">
+				<li dojoType="dojox.mobile.ListItem" transition="slide" noArrow="true" class="gray">
+					Change Theme
+				</li>
+			</ul>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="btn">
+				<li dojoType="dojox.mobile.ListItem" transition="slide" noArrow="true" class="gray">
+					Stats
+				</li>
+			</ul>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="btn">
+				<li dojoType="dojox.mobile.ListItem" moveTo="help" transition="slide" noArrow="true">
+					Help
+				</li>
+			</ul>
+			
+			<br />
+			<div style="font-size:11px;text-align:center">
+				&copy;2011 skobbler GmbH. All rights reserved.<br />
+			</div>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="about_btn">
+				<li dojoType="dojox.mobile.ListItem" moveTo="about" transition="slide" noArrow="true">
+					About
+				</li>
+			</ul>
+		</div>
+
+		<!-- MULTIPLAYER MENU -->
+		<div id="mp_menu" dojoType="dojox.mobile.ScrollableView">			
+			<h1 dojoType="dojox.mobile.Heading" fixed="top" back="Back" moveTo="home">
+				<span class="title">Multiplayer games</span>
+				<span class="topOrnament"></span>
+			</h1>
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="btn">
+				<li dojoType="dojox.mobile.ListItem" moveTo="create_game_mp" transition="slide" noArrow="true">
+					Create game
+				</li>
+			</ul>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="btn">
+				<li dojoType="dojox.mobile.ListItem" moveTo="game_list" transition="slide" noArrow="true">
+					Join game
+				</li>
+			</ul>
+		</div>
+
+		<!--  CREATE GAME (MULTIPLAYER) -->
+		<div id="create_game_mp" dojoType="addresshunter.CreateGameView">
+			<h1 dojoType="dojox.mobile.Heading" fixed="top" back="Back" moveTo="mp_menu">
+				<span class="title">Create game</span>
+				<span class="topOrnament"></span>
+			</h1>
+			<br />
+			<br />
+			<form class="create_game_form">
+				<ul dojoType="dojox.mobile.EdgeToEdgeList" class="clearfix">
+					<li dojoType="dojox.mobile.ListItem" class="mblVariableHeight clearfix">
+						<label for="gName" style="width: 35%;">Game name</label>
+						<input type="text" name="gName" id="gName" value="" maxlength="15" style="width: 55%;" />
+					</li>
+					<li dojoType="dojox.mobile.ListItem" class="mblVariableHeight clearfix">
+						<label for="gPlayersNo">Players (max)</label>
+						<div class="number">
+							<button dojoType="dojox.mobile.Button" class="increment btn up" id="gPlayersNo_up" ><span  id="gPlayersNo_up_span" ></span></button>
+						    <button dojoType="dojox.mobile.Button" class="increment btn down"  id="gPlayersNo_down" ><span  id="gPlayersNo_down_span"></span></button>
+							<input type="number" readonly="readonly" name="gPlayersNo" id="gPlayersNo" value="5" />
+						</div>
+					</li>
+					<li dojoType="dojox.mobile.ListItem" class="mblVariableHeight clearfix">
+						<label for="gAddrNo">Addresses / player</label>
+						<div class="number">
+							<button dojoType="dojox.mobile.Button" class="increment btn up" id="gAddrNo_up"><span id="gAddrNo_up_span"></span></button>
+							<button dojoType="dojox.mobile.Button" class="increment btn down" id="gAddrNo_down"><span id="gAddrNo_down_span"></span></button>
+							<input type="number" readonly="readonly" name="gAddrNo" id="gAddrNo" value="5" />
+						</div>
+					</li>
+					<li dojoType="dojox.mobile.ListItem" class="mblVariableHeight clearfix">
+						<label for="gRadius">Radius (km)</label>
+						<div class="number">
+							<button dojoType="dojox.mobile.Button" class="increment btn up" id="gRadius_up"><span  id="gRadius_up_span"></span></button>
+							<button dojoType="dojox.mobile.Button" class="increment btn down"  id="gRadius_down"><span  id="gRadius_down_span"></span></button>
+							<input type="number" readonly="readonly" name="gRadius" id="gRadius" value="2" />
+						</div>
+					</li>
+					<li dojoType="dojox.mobile.ListItem" class="mblVariableHeight clearfix">
+						<label for="gTimeframe">Timeframe (h)</label>
+						<div class="number">
+							<button dojoType="dojox.mobile.Button" class="increment btn up"  id="gTimeframe_up"><span id="gTimeframe_up_span"></span></button>
+							<button dojoType="dojox.mobile.Button" class="increment btn down" id="gTimeframe_down"><span id="gTimeframe_down_span"></span></button>
+							<input type="number" readonly="readonly" name="gTimeframe" id="gTimeframe" value="12" />
+						</div>
+					</li>
+				</ul>
+				<br />
+				<div class="btnContainer"><button dojoType="dojox.mobile.Button" class="btn create_game_btn">Create game</button></div>
+			</form>
+		</div>
+
+		<!-- WAITING FOR PLAYERS TO JOIN (GAME CREATOR) -->
+		<div id="waiting_join" dojoType="addresshunter.WaitingView"<?php if($this->currentGame && $this->currentGame['status'] == 'new' && $this->currentGame['isCreator']):?> selected="true"<?php endif; ?> creator="true">
+			<h1 dojoType="dojox.mobile.Heading" fixed="top">
+				<span class="title alignLeft">Waiting for players <img src="img/waiting.gif" style="margin-left:4px;vertical-align:middle;opacity:0.5" /></span>
+				<span class="topOrnament"></span>
+				<a dojoType="dojox.mobile.ToolBarButton" label="Cancel game" moveTo="cancel_game" transition="slide"></a>
+			</h1>
+			<h2 class="game_name" style="text-align: center;"></h2>
+			<p style="margin: 1% 5%; font-weight: bold;">
+				Players:
+			</p>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" id="joinListCreator" class="list"></ul>
+			<br />
+			<div class="btnContainer"><button dojoType="dojox.mobile.Button" class="btn start_game_btn">Start game</button></div>
+		</div>
+		
+		<!-- CANCEL GAME (BEFORE STARTED) -->
+		<div id="cancel_game" dojoType="addresshunter.CancelView">
+			<h1 dojoType="dojox.mobile.Heading" fixed="top">
+				<span class="title">Cancel game</span>
+				<span class="topOrnament"></span>
+			</h1>
+			<br />
+			<br />
+			<h3>Are you sure?</h3>
+			<p style="margin:2% 10%">If you cancel this game now, none of the joined users will be able to play. They will be notified that the game has been cancelled.</p>
+			<br />
+			<div class="btnContainer"><button dojoType="dojox.mobile.Button" class="btn cancel_game_btn">Yes</button></div>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="btn">
+				<li dojoType="dojox.mobile.ListItem" moveTo="waiting_join" transition="slide" transitionDir="-1" noArrow="true">
+					No
+				</li>
+			</ul>
+		</div>
+		
+		<!-- JOIN GAME (AVAILABLE GAME LIST) -->
+		<div id="game_list" dojoType="addresshunter.GameListView">
+			<h1 dojoType="dojox.mobile.Heading" fixed="top" back="Back" moveTo="mp_menu">
+				<span class="title">Join game</span>
+				<span class="topOrnament"></span>
+			</h1>
+			<h3 style="text-align: center;">Available games in your area:</h3>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="gameList"></ul>
+		</div>
+		
+		<!-- GAME DETAILS AND JOIN OPTION -->
+		<div id="game_details" dojoType="addresshunter.GameDetailsView">
+			<h1 dojoType="dojox.mobile.Heading" fixed="top" back="Back" moveTo="game_list">
+				<span class="title">Game details</span>
+				<span class="topOrnament"></span>
+			</h1>
+			<div dojoType="dojox.mobile.RoundRect" shadow="true" id="gameDetails"></div>
+			<div class="btnContainer"><button dojoType="dojox.mobile.Button" class="btn join_game_btn">Join game</button></div>
+		</div>
+
+		<!-- WAITING FOR GAME TO START (PLAYERS) -->
+		<div id="waiting_start" dojoType="addresshunter.WaitingView"<?php if($this->currentGame && $this->currentGame['status'] == 'new' && !$this->currentGame['isCreator']):?> selected="true"<?php endif; ?> creator="false">
+			<h1 dojoType="dojox.mobile.Heading" fixed="top">
+				<span class="title alignLeft">Waiting to start <img src="img/waiting.gif" style="margin-left:4px;vertical-align:middle;opacity:0.5" /></span>
+				<span class="topOrnament"></span>
+				<a dojoType="dojox.mobile.ToolBarButton" label="Quit game" moveTo="quit_waiting" transition="slide" style="float:right;"></a>
+			</h1>
+			<h2 class="game_name" style="text-align: center;"></h2>
+			<p style="margin: 1% 5%; font-weight: bold;">
+				Players:
+			</p>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" id="joinListPlayers" class="list"></ul>
+		</div>
+		
+		<!-- QUIT WAITING FOR GAME TO START -->
+		<div id="quit_waiting" dojoType="addresshunter.QuitView" playing="false">
+			<h1 dojoType="dojox.mobile.Heading" fixed="top" >
+				<span class="title">Quit waiting</span>
+				<span class="topOrnament"></span>
+			</h1>
+			<br />
+			<br />
+			<h3>Are you sure ?</h3>
+			<br />
+			<div class="btnContainer"><button dojoType="dojox.mobile.Button" class="btn quit_waiting_btn">Yes</button></div>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="btn">
+				<li dojoType="dojox.mobile.ListItem" moveTo="waiting_start" transition="slide" transitionDir="-1" noArrow="true">
+					No
+				</li>
+			</ul>
+		</div>
+		
+		<!-- PLAYING MAP -->
+		<div id="playing_map" dojoType="addresshunter.PlayingMapView" style="width: 100%; height: 100%; background:#F0EEE4"<?php if($this->currentGame && $this->currentGame['status'] == 'playing'):?> selected="true"<?php endif; ?>>
+			<h1 dojoType="dojox.mobile.Heading" fixed="top">
+				<span class="title alignLeft playing_game_name"></span>
+				<span class="topOrnament"></span>
+				<a  dojoType="dojox.mobile.ToolBarButton"  id="recenter" style="visibility:hidden;"><span></span></a>
+				<a dojoType="dojox.mobile.ToolBarButton" label="Quit game" moveTo="quit_game" transition="slide" style="float:right;"></a>
+				<div id="map_time_remaining"><span class="time"></span></div>
+			</h1>
+			<div id="osmMap" fixed="bottom"></div>
+			<div dojoType="dojox.mobile.Heading" fixed="bottom" style="align:center;">
+				<div id="play_stat_found">Collected: <span id="map_collected"></span></div>
+				<div id="play_stat_rem">Remaining: <span id="map_remaining"></span></div>
+				<div id="play_map_list" class="btnContainer"><a dojoType="dojox.mobile.ToolBarButton" class="btn" moveTo="playing_list" transition="flip">List view <span class="btn"></span></a></div>
+			</div>
+		</div>
+		
+		<!-- PLAYING ADDRESSLIST -->
+		<div id="playing_list" dojoType="addresshunter.PlayingListView">
+			<h1 dojoType="dojox.mobile.Heading" fixed="top">
+				<span class="title alignLeft playing_game_name"></span>
+				<span class="topOrnament"></span>
+				<a dojoType="dojox.mobile.ToolBarButton" label="Quit game" moveTo="quit_game" transition="slide" style="float:right;"></a>
+			</h1>
+			<br /><br /> <br />
+			<div id="addresses_time_remaining" style="position: absolute; z-index: 5010;"></div>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="addressList" id="addressList"></ul>
+			<div dojoType="dojox.mobile.Heading" fixed="bottom" style="align:center;">
+				<div id="play_stat_found">Collected: <span id="list_collected"></span></div>
+				<div id="play_stat_rem">Remaining: <span id="list_remaining"></span></div>
+				<div id="play_map_list" class="btnContainer"><a dojoType="dojox.mobile.ToolBarButton" class="btn" moveTo="playing_map" transition="flip" transitionDir="-1">Map view <span class="btn"></span></a></div>
+			</div>
+		</div>
+
+		<!-- FIND ADDRESS (MULTIPLAYER)  -->
+		<div id="addressfind_mp" dojoType="addresshunter.AddressfindView">
+			<h1 dojoType="dojox.mobile.Heading" fixed="top" back="Back" moveTo="playing_list">
+				<span class="title">Found it</span>
+				<span class="topOrnament"></span>
+			</h1>
+			<br />
+			<h3 id="founded_address" style="margin: 2% 8%;"></h3>
+			<br />
+			<div class="btnContainer"><button dojoType="dojox.mobile.Button" class="btn photo_capture_btn">Take a picture</button></div>
+			<div style="padding: 30px 0px; height: 130px;" class="clearfix"><img src="" id="photo" name="photo" alt="Not captured yet" width="100" style="margin:0 auto;display:block;visibility:hidden;" /></div>
+			<div class="btnContainer" id="address_find_btn"><button dojoType="dojox.mobile.Button" class="btn address_find_btn">Submit address</button></div>
+		</div>
+
+		<!-- QUIT (ABANDON) GAME -->
+		<div id="quit_game" dojoType="addresshunter.QuitView" playing="true">
+			<h1 dojoType="dojox.mobile.Heading" fixed="top">
+				<span class="title">Quit game</span>
+				<span class="topOrnament"></span>
+			</h1>
+			<br />
+			<br />
+			<h3>Are you sure?</h3>
+			<p style="margin:2% 10%">You cannot reenter the game if you quit now.</p>
+			<p style="margin:2% 10%">The <span id="g_points"></span> experience point(s) earned so far will be added to your overall experience.</p>
+			<br />
+			<div class="btnContainer"><button dojoType="dojox.mobile.Button" class="btn quit_game_btn">Yes</button></div>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="btn">
+				<li dojoType="dojox.mobile.ListItem" moveTo="playing_map" transition="slide" transitionDir="-1" noArrow="true">
+					No
+				</li>
+			</ul>
+
+		</div>
+		
+		<!-- LOGOUT -->
+		<div id="logout" dojoType="dojox.mobile.ScrollableView">
+			<h1 dojoType="dojox.mobile.Heading" fixed="top">
+				<span class="title">Logout</span>
+				<span class="topOrnament"></span>
+			</h1>
+			<br />
+			<br />
+			<h3>Are you sure?</h3>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="btn">
+				<li dojoType="dojox.mobile.ListItem" transition="slide" href="<?php echo $this->url(array('controller'=>'osm', 'action'=>'logout'),'default',true); ?>" noArrow="true">
+					Yes
+				</li>
+			</ul>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="btn">
+				<li dojoType="dojox.mobile.ListItem" moveTo="home" transition="slide" transitionDir="-1" noArrow="true">
+					No
+				</li>
+			</ul>
+		</div>
+		<!--END GAME -->
+		<div id="end_game" dojoType="addresshunter.EndGameView">
+			<h1 dojoType="dojox.mobile.Heading" fixed="top">
+				<span class="title">Game results</span>
+				<span class="topOrnament"></span>
+			</h1>
+			<br />
+			<h2 id="results_winning_title" style="text-align:center;display:none;">
+				Victory is yours!
+			</h2>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="resultList"></ul>
+			<br />
+			<ul dojoType="dojox.mobile.EdgeToEdgeList" class="btn">
+				<li dojoType="dojox.mobile.ListItem" moveTo="home" transition="slide" noArrow="true">
+					Ok
+				</li>
+			</ul>
+		</div>
+		<!-- STATS -->
+		<!--
+		<div id="stats" dojoType="addresshunter.StatsView">
+			<h1 dojoType="dojox.mobile.Heading" fixed="top" label="Stats" back="Back" moveTo="home">
+			</h1>
+			<h2>Your rank:</h2>
+			<div dojoType="dojox.mobile.EdgeToEdgeList">
+				// TODO: add content
+			</div>
+			<ul dojoType="dojox.mobile.EdgeToEdgeList">
+				<li dojoType="dojox.mobile.ListItem" rightText="10 flags">// TODO: add content</li>
+			</ul>
+		</div>
+		-->
+
+		<!-- HELP -->
+		<div id="help" dojoType="dojox.mobile.ScrollableView">
+			<h1 dojoType="dojox.mobile.Heading" fixed="top" label="Help" back="Back" moveTo="home">
+				<span class="topOrnament"></span>
+			</h1>
+			<div dojoType="dojox.mobile.RoundRect"  id="gameHelp">
+				<p>
+					<h3>Game-play</h3>
+					AddressHunter - gather as much validated addresses as possible to win experience points and become cartographer.
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/01_splash.jpg" />
+				</p>
+				<p>
+					<h3>Multi-player</h3>
+					The game works only in multi-player mode, make it more fun and challenging. There are two options, either you want to create a game yourself or just join an already created game in your area.
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/06_multiplayer.jpg" />
+				</p>
+				<p>
+					<h3>Create game</h3>
+					To create a game you have to enter the following data:
+					<ul>
+						<li>game name</li>
+						<li>maximum number of players that can join to your game</li>
+						<li>a number of addresses for each player</li>
+						<li>the game radius</li>
+						<li>the game duration(if the time is elapsed, the player with the most points wins the game, and no bonus points are won)</li>
+					</ul>
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/07_create.jpg" />
+					<br />
+					After the game is created, the game creator can see all the players that want to join. He is the only one that can start the game.
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/08_create_wait.jpg" />
+				</p>
+				<p>
+					<h3>Join game</h3>
+					If you chose to join a game you can see a list of all available games in your area, with basic details for each game.
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/17_join_game.jpg" />
+					If you want to know more about that game, you just have to tap it and you will see all game details, including the BONUS points for this game.
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/18_join_game_details.jpg" />
+					Once you have joined the game, you see your competitors and wait for the start moment.
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/19_join_game_wait.jpg" />
+				</p>
+				<p>
+					<h3>Play</h3>
+					To play the game you have been provided with two switchable views:
+					<ul>
+						<li>list view - here you have all the addresses that need to be validated in the current game. For each address it is displayed the approximate distance from you to that address.<br />
+							<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/10_list_view.jpg" />
+							If an address gets meanwhile validated by another player, it disappears from this list.
+						</li>
+						<li>map view - here you can see your position on the map and that of the addresses that you have been validated so far.
+						<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/09_map_view.jpg" />
+						</li>
+					</ul>
+					If you found an address from the list (and you are at the exact house number) you just have to tap "found it".
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/11_found_address.jpg" />
+					Then, for the process to be complete it is mandatory to take a picture of that house number.
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/12_take_pic.jpg" />
+					After the picture is taken the address can be submitted. In this case you have won 1 experience point.
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/13_submit_adddress.jpg" />
+					You can see now how many addresses you have collected and how many are remaining.
+					You can also see on the map view the addresses that have been validated by you.
+					<br />
+					While the game progresses you can achieve to be the one that gathered the most addresses.
+					In this case, when all the addresses are collected you will be the game winner( you will win one point for each address  plus the game bonus points) and possibly pass to the next level.
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/16_game_finish_1.jpg" />
+					The rest of the players will have only one point for each gathered address.
+					<br />
+					NOTE: The game ends in the following cases:
+					<ul>
+						<li>Time is elapsed - each player is directed to the game finish screen, where they receive their points balance. </li>
+						<li>All addresses in the game are validated - winner and rest of players - get directed to the  game finish screen.</li>
+					</ul>
+				</p>
+				<p>
+					<h3>Points</h3>
+					All players receive points. One validated address equals one point.
+					Bonus points:
+					<ul>
+						<li>Only the game winner receives bonus points. </li>
+						<li>The amount of bonus points per game = 1 x number of addresses in game </li>
+					</ul>
+				</p>
+				<p>
+					<h3>Characters</h3>
+					Drifter - between 0 and 27 points
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/help_character_1.png" />
+					Nomad - between 28 and 81 points
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/help_character_2.png" />
+					Traveler - between 82 and 243 points
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/help_character_3.png" />
+					Pathfinder - between 244 and 729 points
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/help_character_4.png" />
+					Discoverer - between 730 and 2187 points
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/help_character_5.png" />
+					Explorer  - between 2188 and 6561 points
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/help_character_6.png" />
+					Cartographer - at least 6562 points
+					<img src="js/addresshunter/themes/mapers_theme/iphone/images/retina/help_character_7.png" />
+				</p>
+			</div>
+		</div>
+
+<?php endif; ?>
+
+		<!-- ABOUT -->
+		<div id="about" dojoType="dojox.mobile.ScrollableView">
+			<h1 dojoType="dojox.mobile.Heading" fixed="top" label="About" back="Back" moveTo="home">
+				<span class="topOrnament"></span>
+			</h1>
+			
+			<div dojoType="dojox.mobile.EdgeToEdgeList">
+				<h2 style="text-align:center">AddressHunter</h2>
+				
+				<p style="text-align:center">
+					version <?php print $this->version['v']; ?> (#<?php print $this->version['rev']; ?>)
+					<!--<br />(OSM server: <?php print $this->version['osm']; ?>)-->
+				</p>
+				
+				<div style="font-size:14px; margin: 2% 8%;">
+					<br />
+					<p>&copy;2011 <a href="http://www.skobbler.com" target="_blank">skobbler</a> GmbH. All rights reserved.</p>
+					<p>Map data <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="_blank">CCBYSA</a> 2010 <a href="http://openstreetmap.org" target="_blank">OpenStreetMap.org</a></p>
+					<p>Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a></p>
+					<p>Collected addresses will become part of <a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a> data.</p>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div id="loading_spinner">
+			<img src="img/spinner.gif" />
+		</div>
+	</body>
+</html>
+
